@@ -5,9 +5,10 @@ import { FormSchema } from '../types/formTypes';
 interface DynamicFormProps {
   schema: FormSchema;
   onSubmit: (data: any) => void;
+  onDownload: (data: any) => void;
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload }) => {
   const {
     register,
     handleSubmit,
@@ -84,6 +85,13 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit }) => {
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
+        <button
+          type="button"
+          onClick={() => onDownload(schema)}
+          className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+        >
+          Download Submissions as JSON
         </button>
       </form>
     </div>
