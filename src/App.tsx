@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import JsonEditor from './components/JsonEditor';
 import DynamicForm from './components/DynamicForm';
 import { FormSchema } from './types/formTypes';
-import Spinner from './components/Spinner';
 
 const defaultSchema: FormSchema = {
   title: "Contact Form",
@@ -99,9 +98,14 @@ function App() {
               error={error}
             />
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px] relative">
-            {isSubmitting && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
-            {!error && <DynamicForm schema={schema} onSubmit={handleSubmit} onDownload={downloadSubmissions} />}
+          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px] relative flex items-center justify-center">
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 border-t-transparent"></div>
+              </div>
+            ) : (
+              !error && <DynamicForm schema={schema} onSubmit={handleSubmit} onDownload={downloadSubmissions} />
+            )}
           </div>
         </div>
       </div>
