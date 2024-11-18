@@ -20,7 +20,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
     onSubmit(data);
   };
 
-  const renderField = (field: FormSchema['fields'][0]) => {
+  const renderField = (field: any) => {
     const validationRules: RegisterOptions = {
       required: field.required ? 'This field is required' : false,
     };
@@ -47,7 +47,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
         return (
           <select {...commonProps}>
             <option value="">Select...</option>
-            {field.options?.map((opt) => (
+            {field.options?.map((opt: any) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>
@@ -64,6 +64,22 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
             className={`w-4 h-4 text-blue-600 ${darkMode ? 'bg-gray-700' : 'bg-white'}`}
           />
         );
+      case 'radio':
+        return (
+          <div className="flex ">
+            {field.options?.map((opt: any) => (
+              <label key={opt.value} className="flex items-center justify-center mr-5">
+                <input
+                  type="radio"
+                  value={opt.value}
+                  {...register(field.name)}
+                  className="mr-1"
+                />
+                {opt.label}
+              </label>
+            ))}
+          </div>
+        );
       default:
         return <input type={field.type} {...commonProps} />;
     }
@@ -73,7 +89,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
     <div className={`h-full flex flex-col ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
       <h2 className="text-xl font-bold mb-4">{schema.title}</h2>
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6 flex-grow">
-        {schema.fields.map((field) => (
+        {schema.fields.map((field: any) => (
           <div key={field.name} className="space-y-2">
             <label className="block text-sm font-medium">
               {field.label}
@@ -89,14 +105,14 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
         ))}
         <button
           type="submit"
-          className={`w-full py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white`}
+          className={`w-full py-1 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white`}
         >
           Submit
         </button>
         <button
           type="button"
           onClick={() => onDownload(schema)}
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+          className="w-full bg-green-600 text-white py-1 px-4 rounded-lg hover:bg-green-700"
         >
           Download Submissions as JSON
         </button>

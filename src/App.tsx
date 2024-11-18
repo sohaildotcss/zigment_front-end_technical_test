@@ -21,6 +21,40 @@ const defaultSchema: FormSchema = {
         pattern: "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
         message: "Please enter a valid email address"
       }
+    },
+    {
+      name: "gender",
+      label: "Gender",
+      type: "select",
+      options: [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+        { value: "other", label: "Other" }
+      ],
+      required: true
+    },
+    {
+      name: "subscribe",
+      label: "Subscribe to newsletter",
+      type: "checkbox",
+      required: false
+    },
+    // {
+    //   name: "feedback",
+    //   label: "Feedback",
+    //   type: "textarea",
+    //   required: false
+    // },
+    {
+      name: "favoriteColor",
+      label: "Favorite Color",
+      type: "radio",
+      options: [
+        { value: "red", label: "Red" },
+        { value: "blue", label: "Blue" },
+        { value: "green", label: "Green" }
+      ],
+      required: true
     }
   ]
 };
@@ -99,7 +133,7 @@ const App: React.FC = () => {
               darkMode={darkMode}
             />
           </div>
-          <div className={`p-6 rounded-lg shadow-lg h-[600px] relative flex items-center justify-center ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+          <div className={`p-6 rounded-lg shadow-lg relative flex items-center justify-center ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
             {isSubmitting ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 border-t-transparent"></div>
