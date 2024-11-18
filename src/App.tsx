@@ -25,7 +25,7 @@ const defaultSchema: FormSchema = {
   ]
 };
 
-function App() {
+const App: React.FC = () => {
   const [jsonValue, setJsonValue] = useState(JSON.stringify(defaultSchema, null, 2));
   const [error, setError] = useState<string>();
   const [schema, setSchema] = useState<FormSchema>(defaultSchema);
