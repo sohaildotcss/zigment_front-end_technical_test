@@ -37,6 +37,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload,
       className: `w-full p-2 border rounded-lg ${
         errors[field.name] ? 'border-red-500' : 'border-gray-300'
       } ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`,
+      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        register(field.name).onChange(e);
+      },
     };
 
     switch (field.type) {
