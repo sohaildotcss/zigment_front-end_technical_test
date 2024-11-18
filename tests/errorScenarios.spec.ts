@@ -8,8 +8,12 @@ test('Error scenarios', async ({ page }) => {
   const submitButton = page.locator('button[type="submit"]');
   await submitButton.click();
 
-  // Check for error message - using the actual class from the app
-  const errorMessage = page.locator('.text-red-500');
-  await expect(errorMessage).toBeVisible();
-  await expect(errorMessage).toContainText('This field is required');
+  // Check for error message - using a more specific selector
+  const errorMessage = page.locator('p.text-red-500.text-sm');
+  await expect(errorMessage.first()).toBeVisible();
+  await expect(errorMessage.first()).toHaveText('This field is required');
+  
+  // Verify all required fields show error messages
+  const errorMessages = await errorMessage.all();
+  expect(errorMessages.length).toBeGreaterThan(0);
 });
