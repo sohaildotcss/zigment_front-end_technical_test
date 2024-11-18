@@ -6,9 +6,10 @@ interface DynamicFormProps {
   schema: FormSchema;
   onSubmit: (data: any) => void;
   onDownload: (data: any) => void;
+  darkMode: boolean;
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload, darkMode }) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +17,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
   } = useForm();
 
   const onFormSubmit = (data: any) => {
-    onSubmit(data); // Call the passed onSubmit function
+    onSubmit(data);
   };
 
   const renderField = (field: FormSchema['fields'][0]) => {
@@ -35,7 +36,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
       ...register(field.name, validationRules),
       className: `w-full p-2 border rounded-lg ${
         errors[field.name] ? 'border-red-500' : 'border-gray-300'
-      }`,
+      } ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`,
     };
 
     switch (field.type) {
@@ -57,7 +58,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
           <input
             type="checkbox"
             {...register(field.name)}
-            className="w-4 h-4 text-blue-600"
+            className={`w-4 h-4 text-blue-600 ${darkMode ? 'bg-gray-700' : 'bg-white'}`}
           />
         );
       default:
@@ -66,12 +67,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className={`h-full flex flex-col ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
       <h2 className="text-xl font-bold mb-4">{schema.title}</h2>
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6 flex-grow">
         {schema.fields.map((field) => (
           <div key={field.name} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium">
               {field.label}
               {field.required && <span className="text-red-500">*</span>}
             </label>

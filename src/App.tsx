@@ -48,7 +48,7 @@ const App: React.FC = () => {
     setIsSubmitting(true);
     console.log('Form submitted:', data);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);
     setSuccessMessage('Form submitted successfully!');
@@ -76,12 +76,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-black'}`}>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-8">
           Dynamic Form Generator
         </h1>
-        <button onClick={copyFormJSON} className="mb-4 p-2 bg-blue-500 text-white rounded">Copy Form JSON</button>
+        <button onClick={copyFormJSON} className="mb-4 mr-4 p-2 bg-blue-500 text-white rounded">Copy Form JSON</button>
         <button onClick={toggleDarkMode} className="mb-4 p-2 bg-gray-700 text-white rounded">{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
         
         {successMessage && (
@@ -91,20 +91,21 @@ const App: React.FC = () => {
         )}
 
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px]">
+          <div className={`p-6 rounded-lg shadow-lg h-[600px] ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
             <JsonEditor
               value={jsonValue}
               onChange={handleJsonChange}
               error={error}
+              darkMode={darkMode}
             />
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px] relative flex items-center justify-center">
+          <div className={`p-6 rounded-lg shadow-lg h-[600px] relative flex items-center justify-center ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
             {isSubmitting ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 border-t-transparent"></div>
               </div>
             ) : (
-              !error && <DynamicForm schema={schema} onSubmit={handleSubmit} onDownload={downloadSubmissions} />
+              !error && <DynamicForm schema={schema} onSubmit={handleSubmit} onDownload={downloadSubmissions} darkMode={darkMode} />
             )}
           </div>
         </div>
