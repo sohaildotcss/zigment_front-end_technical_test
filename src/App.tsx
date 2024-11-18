@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import JsonEditor from './components/JsonEditor';
 import DynamicForm from './components/DynamicForm';
 import { FormSchema } from './types/formTypes';
+import Spinner from './components/Spinner';
 
 const defaultSchema: FormSchema = {
   title: "Contact Form",
@@ -30,6 +31,8 @@ function App() {
   const [error, setError] = useState<string>();
   const [schema, setSchema] = useState<FormSchema>(defaultSchema);
   const [darkMode, setDarkMode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleJsonChange = (value: string) => {
     setJsonValue(value);
@@ -42,9 +45,15 @@ function App() {
     }
   };
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = async (data: any) => {
+    setIsSubmitting(true);
     console.log('Form submitted:', data);
-    alert('Form submitted successfully! Check console for details.');
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setIsSubmitting(false);
+    setSuccessMessage('Form submitted successfully!');
+    console.log('Form submitted successfully! Check console for details.');
   };
 
   const copyFormJSON = () => {
@@ -75,6 +84,13 @@ function App() {
         </h1>
         <button onClick={copyFormJSON} className="mb-4 p-2 bg-blue-500 text-white rounded">Copy Form JSON</button>
         <button onClick={toggleDarkMode} className="mb-4 p-2 bg-gray-700 text-white rounded">{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
+        
+        {successMessage && (
+          <div className="mb-4 p-2 bg-green-100 text-green-700 rounded">
+            {successMessage}
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg h-[600px]">
             <JsonEditor
@@ -83,7 +99,8 @@ function App() {
               error={error}
             />
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px]">
+          <div className="bg-white p-6 rounded-lg shadow-lg h-[600px] relative">
+            {isSubmitting && <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />}
             {!error && <DynamicForm schema={schema} onSubmit={handleSubmit} onDownload={downloadSubmissions} />}
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm, RegisterOptions } from 'react-hook-form';
 import { FormSchema } from '../types/formTypes';
-import Spinner from './Spinner';
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -13,8 +12,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
+
+  const onFormSubmit = (data: any) => {
+    onSubmit(data); // Call the passed onSubmit function
+  };
 
   const renderField = (field: FormSchema['fields'][0]) => {
     const validationRules: RegisterOptions = {
@@ -65,7 +68,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
   return (
     <div className="h-full flex flex-col">
       <h2 className="text-xl font-bold mb-4">{schema.title}</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex-grow">
+      <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6 flex-grow">
         {schema.fields.map((field) => (
           <div key={field.name} className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
@@ -82,19 +85,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
         ))}
         <button
           type="submit"
-          disabled={isSubmitting}
-          className={`w-full py-2 px-4 rounded-lg ${
-            isSubmitting ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-          } text-white disabled:opacity-50 flex items-center justify-center`}
+          className={`w-full py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white`}
         >
-          {isSubmitting ? (
-            <>
-              <Spinner className="mr-2" />
-              Submitting...
-            </>
-          ) : (
-            'Submit'
-          )}
+          Submit
         </button>
         <button
           type="button"
