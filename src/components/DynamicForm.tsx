@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm, RegisterOptions } from 'react-hook-form';
 import { FormSchema } from '../types/formTypes';
+import Spinner from './Spinner';
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -82,9 +83,18 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ schema, onSubmit, onDownload 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className={`w-full py-2 px-4 rounded-lg ${
+            isSubmitting ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
+          } text-white disabled:opacity-50 flex items-center justify-center`}
         >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? (
+            <>
+              <Spinner className="mr-2" />
+              Submitting...
+            </>
+          ) : (
+            'Submit'
+          )}
         </button>
         <button
           type="button"

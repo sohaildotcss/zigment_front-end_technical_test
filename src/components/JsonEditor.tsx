@@ -1,6 +1,4 @@
 import React from 'react';
-import { FormSchema } from '../types/formTypes';
-
 interface JsonEditorProps {
   value: string;
   onChange: (value: string) => void;
