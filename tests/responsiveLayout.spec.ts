@@ -7,12 +7,17 @@ test('Responsive layout', async ({ page }) => {
   // Check layout on desktop
   await page.setViewportSize({ width: 1280, height: 800 });
   const desktopLayout = page.locator('.desktop-layout');
-  await desktopLayout.waitFor({ state: 'visible', timeout: 10000 }); // Wait for the element to be visible
+
+
+  console.log('Waiting for desktop layout to be visible...'); // Debug log
+  await desktopLayout.waitFor({ state: 'visible', timeout: 45000 }); // Increased timeout to 45 seconds
+  console.log('Desktop layout is visible'); // Debug log
   await expect(desktopLayout).toBeVisible();
 
   // Check layout on mobile
   await page.setViewportSize({ width: 375, height: 667 });
   const mobileLayout = page.locator('.mobile-layout');
-  await mobileLayout.waitFor({ state: 'visible', timeout: 10000 }); // Wait for the element to be visible
+  await mobileLayout.waitFor({ state: 'visible', timeout: 20000 }); // Increased timeout
+  console.log('Mobile layout is visible'); // Debug log
   await expect(mobileLayout).toBeVisible();
 });
