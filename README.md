@@ -36,14 +36,9 @@ A React application that generates dynamic forms from JSON schemas in real-time.
    npm start
    ```
 4. **Run tests**:
-   - **Unit tests**:
-     ```bash
-     npm test
-     ```
-   - **E2E tests**:
-     ```bash
-     npm run test:e2e
-     ```
+   ```bash
+   npx playwright test
+   ```
 
 ---
 
